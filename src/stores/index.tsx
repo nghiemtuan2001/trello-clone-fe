@@ -1,6 +1,7 @@
 import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import baseRtkApi from "./services/todo";
 import { commonReducer } from "./slices/common";
+import logger from "redux-logger";
 
 const rootReducer = combineReducers({
   common: commonReducer,
@@ -11,9 +12,9 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware().concat(baseRtkApi.middleware);
-    // if (process.env.NODE_ENV === "development") {
-    //   return middleware.concat(logger);
-    // }
+    if (process.env.NODE_ENV === "development") {
+      return middleware.concat(logger);
+    }
 
     return middleware;
   },
