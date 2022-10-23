@@ -1,10 +1,10 @@
 import { Button, Typography } from "@mui/material";
+import { AppState } from "stores";
 import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "./stores";
-import { useGetTodosQuery } from "./stores/services/todo";
-import { commonActions } from "./stores/slices/common";
+import { useGetTodosQuery } from "stores/services/todo";
+import { commonActions } from "stores/slices/common";
 
-const App = () => {
+const DashboardPage = () => {
   const dispatch = useDispatch();
   const { data: todosData } = useGetTodosQuery();
 
@@ -24,4 +24,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default DashboardPage;
