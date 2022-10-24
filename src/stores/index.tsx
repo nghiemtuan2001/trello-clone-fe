@@ -1,5 +1,5 @@
 import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import baseRtkApi from "./services/todo";
+import baseRtkApi from "stores/services/todo";
 import { commonReducer } from "./slices/common";
 import logger from "redux-logger";
 
