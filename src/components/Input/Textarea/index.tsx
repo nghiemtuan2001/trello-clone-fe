@@ -1,4 +1,4 @@
-import { theme } from "@theme";
+import { theme } from "theme";
 import React, { useState } from "react";
 
 import TNInput, { TNInputProps } from "..";
