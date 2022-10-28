@@ -3,6 +3,7 @@ import { AppState } from "stores";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetTodosQuery } from "stores/services/todo";
 import { commonActions } from "stores/slices/common";
+import DashboardLayout from "Layouts/Dashboard";
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
@@ -14,13 +15,11 @@ const DashboardPage = () => {
     dispatch(commonActions.setMessage("new message!"));
   };
 
-  console.log(todosData, "dadada");
-
   return (
-    <>
+    <DashboardLayout>
       <Button onClick={handleChangeMessage}>Click to set message</Button>
       <Typography>{message}</Typography>
-    </>
+    </DashboardLayout>
   );
 };
 

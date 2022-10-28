@@ -39,7 +39,7 @@ export const theme = createTheme({
   },
   palette: {
     primary: colors.primary,
-    secondary: { main: "#fff" },
+    secondary: { main: "#fff", dark: "#172b4d" },
     grey: colors.grey,
     success: { main: "#34C759" },
     error: { main: "#FF3B30" },

@@ -1,7 +1,14 @@
 import { CaseReducer, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface User {
+  id: string;
+  userName: string;
+  email: string;
+}
+
 interface CommonState {
   message: string;
+  user?: User;
 }
 
 const initialState: CommonState = {
@@ -12,11 +19,16 @@ const setMessage: CaseReducer<CommonState, PayloadAction<string>> = (state, { pa
   state.message = payload;
 };
 
+const setUser: CaseReducer<CommonState, PayloadAction<User | undefined>> = (state, { payload }) => {
+  state.user = payload;
+};
+
 const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
     setMessage,
+    setUser,
   },
 });
 

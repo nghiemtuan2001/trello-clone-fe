@@ -8,6 +8,7 @@ import ErrorPage from "pages/ErrorPage";
 import AuthPage from "pages/Auth";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "theme";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
