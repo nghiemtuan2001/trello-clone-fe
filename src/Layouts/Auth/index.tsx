@@ -10,7 +10,7 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ header, description, children, ...props }: AuthLayoutProps) => {
   return (
-    <Box height="100vh" display="flex" alignItems="center" bgcolor={theme.palette.grey[50]}>
+    <Box height="100vh" display="flex" bgcolor={theme.palette.grey[50]}>
       <Grid
         container
         sx={{

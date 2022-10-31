@@ -10,7 +10,7 @@ const ErrorPage = () => {
     <Box height="100vh" display="flex" alignItems="center">
       <Box display="flex" flexDirection="column" gap={2} mx="auto">
         <Box>
-          <h1>Oops! Page not found!</h1>
+          <h1>Oops! Something went wrong!</h1>
           <p>
             <i>{error.statusText || error.message}</i>
           </p>
