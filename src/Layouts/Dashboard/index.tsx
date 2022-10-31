@@ -3,6 +3,7 @@ import React from "react";
 import Header from "./Header";
 
 import { theme } from "theme";
+import SubHeader from "./SubHeader";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <Box>
+    <Box width="100vw" height="100vh">
       <Header />
       <Box
         position="relative"
@@ -20,6 +21,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           backgroundSize: "cover",
         }}
       >
+        <SubHeader />
         {children}
       </Box>
     </Box>

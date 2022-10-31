@@ -8,6 +8,9 @@ import ErrorPage from "pages/ErrorPage";
 import AuthPage from "pages/Auth";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "theme";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -28,7 +31,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>

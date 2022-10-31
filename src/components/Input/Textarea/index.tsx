@@ -3,11 +3,11 @@ import React, { useState } from "react";
 
 import TNInput, { TNInputProps } from "..";
 
-export interface YLTextAreaProps extends TNInputProps {
+export interface TNTextAreaProps extends TNInputProps {
   maxLength?: number;
 }
 
-const YLTextarea = ({ onChange, maxLength, inputProps, containerProps, ...props }: YLTextAreaProps) => {
+const TNTextarea = ({ onChange, maxLength, inputProps, containerProps, ...props }: TNTextAreaProps) => {
   const [inputLength, setInputLength] = useState(0);
 
   return (
@@ -40,4 +40,4 @@ const YLTextarea = ({ onChange, maxLength, inputProps, containerProps, ...props 
   );
 };
 
-export default YLTextarea;
+export default TNTextarea;
