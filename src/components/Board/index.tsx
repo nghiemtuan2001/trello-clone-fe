@@ -3,7 +3,7 @@ import PlusIcon from "components/Icons/Plus";
 import ThreeDotsIcon from "components/Icons/ThreeDots";
 import Todo from "components/Todo";
 import { theme } from "theme";
-import { Priorities, TodoType } from "typings";
+import { TodoType } from "typings/todo";
 
 interface BoardProps {
   name: string;
@@ -14,9 +14,9 @@ const MOCK_TODOS: TodoType[] = [
   {
     id: 1,
     name: "todo",
-    priority: Priorities.LOW,
-    startTime: new Date(),
-    expireTime: new Date(),
+    priority: "LOW",
+    startTime: new Date().toISOString(),
+    expireTime: new Date().toISOString(),
     description: "Desc....",
     color: "#000000",
     completed: true,
@@ -24,9 +24,9 @@ const MOCK_TODOS: TodoType[] = [
   {
     id: 2,
     name: "todo",
-    priority: Priorities.MEDIUM,
-    startTime: new Date(),
-    expireTime: new Date(),
+    priority: "MEDIUM",
+    startTime: new Date().toISOString(),
+    expireTime: new Date().toISOString(),
     description: "Desc....",
     color: "#000000",
     completed: false,
@@ -34,9 +34,9 @@ const MOCK_TODOS: TodoType[] = [
   {
     id: 3,
     name: "todo",
-    priority: Priorities.HIGH,
-    startTime: new Date(),
-    expireTime: new Date(),
+    priority: "HIGH",
+    startTime: new Date().toISOString(),
+    expireTime: new Date().toISOString(),
     description: "Desc....",
     color: "#000000",
     completed: true,
@@ -47,7 +47,7 @@ const Board = ({ name, setSelectedTodo }: BoardProps) => {
   return (
     <Box
       maxHeight={`calc(100vh - ${theme.spacing(19)})`}
-      width={theme.spacing(34)}
+      minWidth={theme.spacing(34)}
       display="flex"
       flexDirection="column"
       alignSelf="start"
