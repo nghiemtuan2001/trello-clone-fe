@@ -6,7 +6,8 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { theme } from "theme";
-import { Priorities, TodoType } from "typings";
+import { Priorities } from "typings/common";
+import { TodoType } from "typings/todo";
 import TaskIcon from "@mui/icons-material/ContentPaste";
 import LayersIcon from "@mui/icons-material/Layers";
 import CheckIcon from "@mui/icons-material/Check";
@@ -74,9 +75,9 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
     name: Yup.string(),
     description: Yup.string(),
     color: Yup.string(),
-    priority: Yup.number(),
-    startTime: Yup.date(),
-    expireTime: Yup.date(),
+    priority: Yup.string(),
+    startTime: Yup.string(),
+    expireTime: Yup.string(),
     completed: Yup.boolean(),
   });
 
@@ -99,9 +100,9 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
       name: todo?.name ?? EMPTY_CONTENT,
       description: todo?.description ?? EMPTY_CONTENT,
       color: todo?.color ?? "#ffffff",
-      priority: todo?.priority,
-      startTime: todo?.startTime ?? new Date(),
-      expireTime: todo?.expireTime ?? new Date(),
+      priority: todo?.priority ?? "LOW",
+      startTime: todo?.startTime ?? new Date().toISOString(),
+      expireTime: todo?.expireTime ?? new Date().toISOString(),
       completed: todo?.completed,
     });
   }, [reset, todo]);
@@ -175,10 +176,9 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
               </Typography>
               <Box display="flex" justifyContent="end" alignItems="center">
                 <Typography component="span" variant="caption" color={theme.palette.secondary.dark}>
-                  {Priorities[watch("priority") ?? Priorities.LOW].charAt(0) +
-                    Priorities[watch("priority") ?? Priorities.LOW].slice(1).toLowerCase()}
+                  {Priorities[watch("priority") as "LOW"]}
                 </Typography>
-                {PRIORITY_ICONS[watch("priority")]}
+                {PRIORITY_ICONS[watch("priority") as "LOW"]}
               </Box>
             </Box>
             <Box>
@@ -200,15 +200,15 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
             <Box width="100%" display="flex" gap={2}>
               <DateTimePicker
                 label="Start time"
-                value={watch("startTime")}
-                onChange={(newValue) => setValue("startTime", newValue ?? new Date())}
+                value={String(watch("startTime"))}
+                onChange={(newValue) => setValue("startTime", String(newValue) ?? new Date().toISOString())}
                 renderInput={(params) => <TextField {...params} />}
                 disablePast
               />
               <DateTimePicker
                 label="Expire time"
-                value={watch("expireTime")}
-                onChange={(newValue) => setValue("expireTime", newValue ?? new Date())}
+                value={String(watch("expireTime"))}
+                onChange={(newValue) => setValue("expireTime", String(newValue) ?? new Date().toISOString())}
                 renderInput={(params) => <TextField {...params} />}
                 disablePast
               />

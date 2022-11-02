@@ -1,6 +1,7 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import { theme } from "theme";
-import { Priorities, TodoType } from "typings";
+import { Priorities } from "typings/common";
+import { TodoType } from "typings/todo";
 import LowIcon from "@mui/icons-material/KeyboardArrowRight";
 import MediumIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import HighIcon from "@mui/icons-material/DoubleArrow";
@@ -13,11 +14,9 @@ interface TodoProps {
 }
 
 export const PRIORITY_ICONS = {
-  [Priorities.LOW]: <LowIcon sx={{ fontSize: 16, color: theme.palette.primary.main, transform: "rotate(-90deg)" }} />,
-  [Priorities.MEDIUM]: (
-    <MediumIcon sx={{ fontSize: 16, color: theme.palette.warning.main, transform: "rotate(-90deg)" }} />
-  ),
-  [Priorities.HIGH]: <HighIcon sx={{ fontSize: 16, color: theme.palette.error.main, transform: "rotate(-90deg)" }} />,
+  LOW: <LowIcon sx={{ fontSize: 16, color: theme.palette.primary.main, transform: "rotate(-90deg)" }} />,
+  MEDIUM: <MediumIcon sx={{ fontSize: 16, color: theme.palette.warning.main, transform: "rotate(-90deg)" }} />,
+  HIGH: <HighIcon sx={{ fontSize: 16, color: theme.palette.error.main, transform: "rotate(-90deg)" }} />,
 };
 
 const Todo = ({ todo, setSelectedTodo }: TodoProps) => {
@@ -53,9 +52,9 @@ const Todo = ({ todo, setSelectedTodo }: TodoProps) => {
       </Typography>
       <Box display="flex" justifyContent="end" alignItems="center">
         <Typography component="span" variant="caption" color={theme.palette.secondary.dark}>
-          {Priorities[priority].charAt(0) + Priorities[priority].slice(1).toLowerCase()}
+          {Priorities[(priority as "LOW") ?? "LOW"]}
         </Typography>
-        {PRIORITY_ICONS[priority]}
+        {PRIORITY_ICONS[(priority as "LOW") ?? "LOW"]}
       </Box>
     </Box>
   );
