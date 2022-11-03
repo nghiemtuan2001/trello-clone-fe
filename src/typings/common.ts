@@ -3,9 +3,3 @@ export enum Priorities {
   MEDIUM = "Medium",
   HIGH = "High",
 }
-
-export interface BoardType {
-  id: string | number;
-  name: string;
-  order: number;
-}

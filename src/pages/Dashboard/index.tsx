@@ -8,7 +8,6 @@ import { useState } from "react";
 import { TodoType } from "typings/todo";
 import { theme } from "theme";
 import TodoDetail from "containers/Dashboard/TodoDetail";
-import { useCreateTodoMutation } from "stores/services/todo";
 
 const MOCK_BOARDS = [
   {
@@ -63,7 +62,6 @@ const MOCK_BOARDS = [
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
-  const [createTodo] = useCreateTodoMutation();
 
   const [selectedTodo, setSelectedTodo] = useState<TodoType | null>(null);
 
@@ -71,21 +69,7 @@ const DashboardPage = () => {
 
   const handleChangeMessage = () => {
     dispatch(commonActions.setMessage("new message!"));
-    createTodo({
-      name: "todoTT",
-      boardId: "1587660565541556224",
-      priority: "LOW",
-      startTime: new Date().toISOString(),
-      expireTime: new Date().toISOString(),
-      description: "Desc",
-      color: "#000000",
-      completed: false,
-    })
-      .unwrap()
-      .then((res) => console.log(res));
   };
-
-  // console.log(todosData);
 
   return (
     <DashboardLayout>
