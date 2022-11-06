@@ -1,7 +1,7 @@
 export interface BoardType {
-  id: string | number;
+  id?: string | number;
   name: string;
-  order: number;
+  order?: number;
   userId: string | number;
 }
 

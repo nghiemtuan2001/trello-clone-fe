@@ -2,9 +2,11 @@ import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/t
 import { commonReducer } from "./slices/common";
 import logger from "redux-logger";
 import baseRtkApi from "./services";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
 
 const rootReducer = combineReducers({
-  common: commonReducer,
+  common: persistReducer({ key: "common", storage, whitelist: ["user"] }, commonReducer),
   [baseRtkApi.reducerPath]: baseRtkApi.reducer,
 });
 
@@ -20,8 +22,10 @@ const store = configureStore({
   },
 });
 
+const persistor = persistStore(store);
+
 export type AppDispatch = typeof store.dispatch;
 export type AppState = ReturnType<typeof rootReducer>;
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action<string>>;
 
-export default store;
+export { store, persistor };

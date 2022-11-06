@@ -25,10 +25,10 @@ export const boardApi = baseRtkApi.injectEndpoints({
       invalidatesTags: ["board"],
     }),
     updateBoard: builder.mutation<void, BoardType>({
-      query: ({ userId, ...body }) => ({
-        url: `/${userId}/board/${body.id}`,
+      query: ({ userId, id, ...board }) => ({
+        url: `/${userId}/board/${id}`,
         method: "PATCH",
-        body,
+        body: { board },
       }),
       invalidatesTags: (_, __, { id }) => [{ type: "board", id }],
     }),

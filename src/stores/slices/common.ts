@@ -1,25 +1,36 @@
+import { AlertColor } from "@mui/material";
 import { CaseReducer, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserType } from "typings/user";
 
-interface User {
-  id: string;
-  userName: string;
-  email: string;
-}
-
-interface CommonState {
+export interface MessageState {
+  open: boolean;
   message: string;
-  user?: User;
+  type?: AlertColor;
+}
+interface CommonState {
+  message: MessageState;
+  user?: Omit<UserType, "password">;
 }
 
 const initialState: CommonState = {
-  message: "init",
+  message: {
+    open: false,
+    message: "",
+  },
 };
 
-const setMessage: CaseReducer<CommonState, PayloadAction<string>> = (state, { payload }) => {
-  state.message = payload;
+const showAlertMessage: CaseReducer<CommonState, PayloadAction<Omit<MessageState, "open">>> = (state, { payload }) => {
+  state.message = { ...payload, open: true };
 };
 
-const setUser: CaseReducer<CommonState, PayloadAction<User | undefined>> = (state, { payload }) => {
+const hideAlertMessage: CaseReducer<CommonState> = (state) => {
+  state.message.open = false;
+};
+
+const setUser: CaseReducer<CommonState, PayloadAction<Omit<UserType, "password"> | undefined>> = (
+  state,
+  { payload }
+) => {
   state.user = payload;
 };
 
@@ -27,7 +38,8 @@ const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {
-    setMessage,
+    showAlertMessage,
+    hideAlertMessage,
     setUser,
   },
 });

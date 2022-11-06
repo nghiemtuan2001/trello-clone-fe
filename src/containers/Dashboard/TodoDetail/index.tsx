@@ -1,4 +1,4 @@
-import { Box, Button, Popover, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Popover, Select, TextField, Typography } from "@mui/material";
 import TNModal from "components/Modal";
 import { EMPTY_CONTENT } from "constants/common";
 import { ReactNode, useEffect, useState } from "react";
@@ -13,12 +13,15 @@ import LayersIcon from "@mui/icons-material/Layers";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { ChromePicker, ColorResult } from "react-color";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import TNTextarea from "components/Input/Textarea";
 import { PRIORITY_ICONS } from "components/Todo";
 import { SxProps, Theme } from "@mui/system";
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "stores/services/todo";
+import { useDispatch } from "react-redux";
+import { commonActions } from "stores/slices/common";
+import { pick } from "lodash";
+import { isBefore } from "date-fns/esm";
 
 interface TodoDetailProps {
   todo: TodoType | null;
@@ -32,7 +35,7 @@ interface ContentBoxProps {
   label?: string;
 }
 
-const textFieldSx: SxProps<Theme> = {
+export const textFieldSx: SxProps<Theme> = {
   "& .MuiOutlinedInput-root.Mui-focused": {
     "& > fieldset": {
       borderColor: theme.palette.primary.main,
@@ -80,19 +83,49 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
     expireTime: Yup.string(),
     completed: Yup.boolean(),
   });
-
   const { watch, register, setValue, handleSubmit, reset } = useForm<FormProps>({
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const [updateTodo] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
 
   const handleChangeComplete = (color: ColorResult) => {
     setValue("color", color.hex);
   };
 
-  const onSubmit = (values: FormProps) => {
-    console.log(values);
+  const onSubmit = async (values: FormProps) => {
+    if (todo) {
+      const updatedFields = Object.keys(values).filter((field) => (values as any)[field] !== (todo as any)[field]);
+
+      if (!updatedFields.length) return;
+
+      try {
+        await updateTodo({
+          ...pick(values, updatedFields),
+          id: todo.id,
+          boardId: todo.boardId,
+        }).unwrap();
+        dispatch(commonActions.showAlertMessage({ type: "success", message: "Successfully updated task!" }));
+      } catch (error: any) {
+        dispatch(commonActions.showAlertMessage({ type: "error", message: error.data.message }));
+      }
+    }
+  };
+
+  const handleDeleteTodo = async () => {
+    if (todo) {
+      try {
+        await deleteTodo({ boardId: String(todo.boardId), id: String(todo.id) }).unwrap();
+        setSelectedTodo(null);
+        dispatch(commonActions.showAlertMessage({ type: "success", message: "Successfully deleted task!" }));
+      } catch (error: any) {
+        dispatch(commonActions.showAlertMessage({ type: "error", message: error.data.message }));
+      }
+    }
   };
 
   useEffect(() => {
@@ -175,10 +208,21 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
                 Priority:
               </Typography>
               <Box display="flex" justifyContent="end" alignItems="center">
-                <Typography component="span" variant="caption" color={theme.palette.secondary.dark}>
-                  {Priorities[watch("priority") as "LOW"]}
-                </Typography>
-                {PRIORITY_ICONS[watch("priority") as "LOW"]}
+                <Select
+                  value={watch("priority")}
+                  renderValue={(value) => (
+                    <Box display="flex" alignItems="center">
+                      {Priorities[value as "LOW"]}
+                      {PRIORITY_ICONS[value as "LOW"]}
+                    </Box>
+                  )}
+                  onChange={(e) => setValue("priority", e.target.value)}
+                  displayEmpty
+                >
+                  <MenuItem value={Priorities.LOW.toUpperCase()}>{Priorities.LOW}</MenuItem>
+                  <MenuItem value={Priorities.MEDIUM.toUpperCase()}>{Priorities.MEDIUM}</MenuItem>
+                  <MenuItem value={Priorities.HIGH.toUpperCase()}>{Priorities.HIGH}</MenuItem>
+                </Select>
               </Box>
             </Box>
             <Box>
@@ -201,17 +245,26 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
               <DateTimePicker
                 label="Start time"
                 value={String(watch("startTime"))}
-                onChange={(newValue) => setValue("startTime", String(newValue) ?? new Date().toISOString())}
+                onChange={(newValue) =>
+                  setValue("startTime", newValue ? new Date(newValue).toISOString() : new Date().toISOString())
+                }
                 renderInput={(params) => <TextField {...params} />}
                 disablePast
               />
               <DateTimePicker
                 label="Expire time"
                 value={String(watch("expireTime"))}
-                onChange={(newValue) => setValue("expireTime", String(newValue) ?? new Date().toISOString())}
+                onChange={(newValue) =>
+                  setValue("expireTime", newValue ? new Date(newValue).toISOString() : new Date().toISOString())
+                }
                 renderInput={(params) => <TextField {...params} />}
                 disablePast
               />
+              {isBefore(new Date(), new Date(String(watch("expireTime")))) && (
+                <Button variant="contained" color="error" sx={{ pointerEvents: "none" }}>
+                  Expired
+                </Button>
+              )}
             </Box>
           </ContentBox>
         )}
@@ -223,6 +276,9 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
             fullWidth
           />
         </ContentBox>
+        <Button variant="contained" color="error" size="small" onClick={handleDeleteTodo}>
+          Delete
+        </Button>
       </Box>
     </TNModal>
   );
