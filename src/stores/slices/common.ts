@@ -7,15 +7,33 @@ export interface MessageState {
   message: string;
   type?: AlertColor;
 }
+
+export enum TodoFilterCompleted {
+  UNCOMPLETED,
+  COMPLETED,
+}
+
+export interface TodoFilterType {
+  filterName?: string;
+  filterPriority?: "LOW" | "MEDIUM" | "HIGH" | "NONE";
+  filterCompleted?: TodoFilterCompleted | "NONE";
+}
+
 interface CommonState {
   message: MessageState;
   user?: Omit<UserType, "password">;
+  todoFilter: TodoFilterType;
 }
 
 const initialState: CommonState = {
   message: {
     open: false,
     message: "",
+  },
+  todoFilter: {
+    filterName: "",
+    filterPriority: "NONE",
+    filterCompleted: "NONE",
   },
 };
 
@@ -34,6 +52,10 @@ const setUser: CaseReducer<CommonState, PayloadAction<Omit<UserType, "password">
   state.user = payload;
 };
 
+const setTodoFilter: CaseReducer<CommonState, PayloadAction<TodoFilterType>> = (state, { payload }) => {
+  state.todoFilter = { ...state.todoFilter, ...payload };
+};
+
 const commonSlice = createSlice({
   name: "common",
   initialState,
@@ -41,6 +63,7 @@ const commonSlice = createSlice({
     showAlertMessage,
     hideAlertMessage,
     setUser,
+    setTodoFilter,
   },
 });
 

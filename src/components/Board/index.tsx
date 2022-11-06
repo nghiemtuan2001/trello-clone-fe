@@ -5,7 +5,7 @@ import Todo from "components/Todo";
 import { useCreateTodoMutation, useGetTodosQuery } from "stores/services/todo";
 import { theme } from "theme";
 import { TodoType } from "typings/todo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getRandomColorHex } from "utils";
 import { useDispatch, useSelector } from "react-redux";
 import { commonActions } from "stores/slices/common";
@@ -22,8 +22,18 @@ interface BoardProps {
 const Board = ({ name, boardId, setSelectedTodo }: BoardProps) => {
   const dispatch = useDispatch();
   const user = useSelector((state: AppState) => state.common.user);
+  const todoFilter = useSelector((state: AppState) => state.common.todoFilter);
 
-  const { data: todos } = useGetTodosQuery({ boardId });
+  const { data: todos } = useGetTodosQuery({
+    boardId,
+    filterName: !!todoFilter.filterName ? todoFilter.filterName : undefined,
+    filterPriority:
+      !!todoFilter.filterPriority && todoFilter.filterPriority === "NONE" ? undefined : todoFilter.filterPriority,
+    filterCompleted:
+      todoFilter.filterCompleted !== undefined && todoFilter.filterCompleted === "NONE"
+        ? undefined
+        : todoFilter.filterCompleted,
+  });
   const [createTodo] = useCreateTodoMutation();
   const [isCreatingTodo, setIsCreatingTodo] = useState(false);
   const [creatingTodoName, setCreatingTodoName] = useState("");
@@ -43,6 +53,8 @@ const Board = ({ name, boardId, setSelectedTodo }: BoardProps) => {
         boardId,
         name: creatingTodoName,
         color: getRandomColorHex(),
+        startTime: new Date().toISOString(),
+        expireTime: new Date().toISOString(),
       }).unwrap();
 
       dispatch(commonActions.showAlertMessage({ type: "success", message: "Successfully created task!" }));

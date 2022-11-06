@@ -15,7 +15,7 @@ export interface GetTodosRequest {
   boardId: number | string;
   filterName?: string;
   filterPriority?: string;
-  filterCompleted?: string;
+  filterCompleted?: number;
 }
 
 export interface GetTodoRequest {
