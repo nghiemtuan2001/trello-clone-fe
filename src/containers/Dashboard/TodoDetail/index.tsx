@@ -260,7 +260,7 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
                 renderInput={(params) => <TextField {...params} />}
                 disablePast
               />
-              {isBefore(new Date(), new Date(String(watch("expireTime")))) && (
+              {isBefore(new Date(String(watch("expireTime"))), new Date()) && (
                 <Button variant="contained" color="error" sx={{ pointerEvents: "none" }}>
                   Expired
                 </Button>

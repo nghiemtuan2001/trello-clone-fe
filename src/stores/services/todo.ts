@@ -4,7 +4,7 @@ import baseRtkApi from ".";
 export const todoApi = baseRtkApi.injectEndpoints({
   endpoints: (builder) => ({
     getTodos: builder.query<TodoType[], GetTodosRequest>({
-      query: ({ boardId }) => ({ url: `/${boardId}/todos` }),
+      query: ({ boardId, ...params }) => ({ url: `/${boardId}/todos`, params }),
       transformResponse: (res: GetTodosResponse) => res.todos,
       providesTags: (result) =>
         result ? [...result.map(({ id }) => ({ type: "todo" as const, id })), "todo"] : ["todo"],
