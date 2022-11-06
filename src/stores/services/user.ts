@@ -1,3 +1,4 @@
+import { omit } from "lodash";
 import { GetUserRequest, UserType } from "typings/user";
 import baseRtkApi from ".";
 
@@ -7,8 +8,9 @@ export const userApi = baseRtkApi.injectEndpoints({
       query: ({ id }) => ({ url: `user/${id}` }),
       providesTags: (result) => (result ? [{ type: "user", id: result.id }, "user"] : ["user"]),
     }),
-    signIn: builder.mutation<void, UserType>({
+    signIn: builder.mutation<Omit<UserType, "password">, UserType>({
       query: (body) => ({ url: "user/signIn", method: "POST", body }),
+      transformResponse: (res: UserType) => omit(res, ["password"]),
       invalidatesTags: ["user"],
     }),
     signUp: builder.mutation<void, UserType>({

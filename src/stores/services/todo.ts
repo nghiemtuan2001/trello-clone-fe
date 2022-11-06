@@ -28,10 +28,12 @@ export const todoApi = baseRtkApi.injectEndpoints({
       invalidatesTags: ["todo"],
     }),
     updateTodo: builder.mutation<void, TodoType>({
-      query: ({ boardId, ...body }) => ({
-        url: `/${boardId}/todo/${body.id}`,
+      query: ({ boardId, id, ...todo }) => ({
+        url: `/${boardId}/todo/${id}`,
         method: "PATCH",
-        body,
+        body: {
+          todo,
+        },
       }),
       invalidatesTags: (_, __, { id }) => [{ type: "todo", id }],
     }),

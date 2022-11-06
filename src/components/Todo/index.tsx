@@ -38,7 +38,14 @@ const Todo = ({ todo, setSelectedTodo }: TodoProps) => {
       onClick={() => setSelectedTodo(todo)}
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        {color && <Box width={theme.spacing(5)} height={theme.spacing(1)} bgcolor={color} borderRadius={4} />}
+        <Box
+          width={theme.spacing(5)}
+          height={theme.spacing(1)}
+          bgcolor={color ?? theme.palette.common.white}
+          border={1}
+          borderColor={theme.palette.grey[200]}
+          borderRadius={4}
+        />
         <IconButton size="small">
           {completed ? (
             <CheckIcon sx={{ fontSize: 16, color: theme.palette.success.main }} />
