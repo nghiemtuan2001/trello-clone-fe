@@ -1,6 +1,6 @@
 export interface BoardType {
   id?: string | number;
-  name: string;
+  name?: string;
   order?: number;
   userId: string | number;
 }
