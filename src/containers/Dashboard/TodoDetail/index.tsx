@@ -108,6 +108,7 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
           ...pick(values, updatedFields),
           id: todo.id,
           boardId: todo.boardId,
+          updateMask: updatedFields.join(","),
         }).unwrap();
         dispatch(commonActions.showAlertMessage({ type: "success", message: "Successfully updated task!" }));
       } catch (error: any) {
@@ -249,7 +250,6 @@ const TodoDetail = ({ todo, setSelectedTodo }: TodoDetailProps) => {
                   setValue("startTime", newValue ? new Date(newValue).toISOString() : new Date().toISOString())
                 }
                 renderInput={(params) => <TextField {...params} />}
-                disablePast
               />
               <DateTimePicker
                 label="Expire time"

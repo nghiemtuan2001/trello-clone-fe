@@ -20,7 +20,7 @@ const SubHeader = () => {
   }, 500);
 
   return (
-    <Box display="flex" alignItems="center" gap={1} p={1} bgcolor="rgb(210, 212, 218, 0.5)">
+    <Box display="flex" alignItems="center" gap={1} py={1} px={2} bgcolor="rgb(210, 212, 218, 0.5)">
       <Typography>Filter:</Typography>
       <TextField
         onChange={(e) => handleSetTodoFilterName(e.target.value)}

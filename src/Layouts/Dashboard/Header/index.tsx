@@ -40,13 +40,6 @@ const Header = () => {
         <Box display="flex" flexDirection="column" py={0.5}>
           <Button
             onClick={() => {
-              handleClose();
-            }}
-          >
-            Change password
-          </Button>
-          <Button
-            onClick={() => {
               handleSignOut();
               handleClose();
             }}

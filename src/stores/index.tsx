@@ -15,7 +15,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware().concat(baseRtkApi.middleware);
     if (process.env.NODE_ENV === "development") {
-      return middleware.concat(logger);
+      // return middleware.concat(logger);
     }
 
     return middleware;

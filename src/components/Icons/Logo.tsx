@@ -20,8 +20,8 @@ const LogoIcon = (props: React.SVGProps<SVGSVGElement>) => {
         y2="47"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#6dc7ff"></stop>
-        <stop offset="1" stop-color="#e6abff"></stop>
+        <stop offset="0" stopColor="#6dc7ff"></stop>
+        <stop offset="1" stopColor="#e6abff"></stop>
       </linearGradient>
       <path
         fill="url(#UkOGjJSH0tJ0foaMEsaA_a_vrmg1S9Hfbiv_gr1)"
@@ -35,8 +35,8 @@ const LogoIcon = (props: React.SVGProps<SVGSVGElement>) => {
         y2="33"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#6dc7ff"></stop>
-        <stop offset="1" stop-color="#e6abff"></stop>
+        <stop offset="0" stopColor="#6dc7ff"></stop>
+        <stop offset="1" stopColor="#e6abff"></stop>
       </linearGradient>
       <path
         fill="url(#UkOGjJSH0tJ0foaMEsaA_b_vrmg1S9Hfbiv_gr2)"
@@ -50,8 +50,8 @@ const LogoIcon = (props: React.SVGProps<SVGSVGElement>) => {
         y2="56.362"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#1a6dff"></stop>
-        <stop offset="1" stop-color="#c822ff"></stop>
+        <stop offset="0" stopColor="#1a6dff"></stop>
+        <stop offset="1" stopColor="#c822ff"></stop>
       </linearGradient>
       <path
         fill="url(#UkOGjJSH0tJ0foaMEsaA_c_vrmg1S9Hfbiv_gr3)"

@@ -35,4 +35,10 @@ export const boardApi = baseRtkApi.injectEndpoints({
   }),
 });
 
-export const { useCreateBoardMutation, useDeleteBoardMutation, useGetBoardsQuery, useUpdateBoardMutation } = boardApi;
+export const {
+  useCreateBoardMutation,
+  useDeleteBoardMutation,
+  useGetBoardsQuery,
+  useLazyGetBoardsQuery,
+  useUpdateBoardMutation,
+} = boardApi;
